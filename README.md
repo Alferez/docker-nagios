@@ -9,7 +9,7 @@
  
  Configure MAIL:
  
- You need edit mail-config files in mail-config folder
+ You need edit files in mail-config folder with your configuration data.
  
  
  Usage:
