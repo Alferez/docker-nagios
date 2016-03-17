@@ -80,15 +80,31 @@ RUN a2enmod cgi
 RUN echo "ServerName localhost" | tee /etc/apache2/conf-available/fqdn.conf
 RUN ln -s /etc/apache2/conf-available/fqdn.conf /etc/apache2/conf-enabled/fqdn.conf
 RUN ln -s /etc/apache2/sites-available/nagios.conf /etc/apache2/sites-enabled/
-#RUN sed -i 's|^Alias /nagios|Alias / |g' /etc/apache2/sites-enabled/nagios.conf 
-#RUN unlink /etc/apache2/sites-enabled/000-default.conf 
 
 
 ### Configuracion
 ### Usuario nagiosadmin pass 1234
-RUN echo 'nagiosadmin:$apr1$MiSatjLg$viCZy5rD5lbc5mGZ514dE/' > /usr/local/nagios/etc/htpasswd.users
+COPY ./default-config/default_confg.tar.gz /tmp/default_confg.tar.gz
+RUN tar zxvf /tmp/default_confg.tar.gz
+RUN rm -rf /usr/local/nagios/etc
+RUN mv /tmp/etc /usr/local/nagios
 
+#### Optionals Modules
+RUN apt-get update -y --fix-missing
+RUN apt-get install -y libnagios-plugin-perl libb-utils-perl libstring-random-perl python
+RUN apt-get install -y snmp
 
+### Personalizacion
+RUN echo "alias l='ls -la'" >> /root/.bashrc
+RUN echo "export TERM=xterm" >> /root/.bashrc
+
+### Fix MTA
+#RUN mkdir /usr/local/nagios/etc/mail-config
+#RUN mv /etc/exim4/update-exim4.conf.conf /usr/local/nagios/etc/mail-config
+#RUN mv /etc/exim4/passwd.client /usr/local/nagios/etc/mail-config
+RUN rm /etc/exim4/update-exim4.conf.conf /etc/exim4/passwd.client
+RUN ln -s /usr/local/nagios/etc/mail-config/update-exim4.conf.conf /etc/exim4/update-exim4.conf.conf
+RUN ln -s /usr/local/nagios/etc/mail-config/passwd.client /etc/exim4/passwd.client      
 
 ### Limpiamos
 RUN apt-get clean
@@ -96,12 +112,9 @@ RUN rm -rf /tmp/* /var/tmp/*
 RUN rm -rf /var/lib/apt/lists/*
 
 ### Add Entrypoing
-ADD ./assets/start.sh /start.sh
+COPY ./assets/start.sh /start.sh
 RUN chmod +x /start.sh
 
 WORKDIR /root
 
 ENTRYPOINT "/start.sh"
-
-### Personalizacion
-RUN echo "alias l='ls -la'" >> /root/.bashrc
