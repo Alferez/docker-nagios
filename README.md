@@ -16,7 +16,7 @@
  
  To run container:
  
- docker run --rm -p 80:80 -v /YOUR_CONFIGURATION_FOLDER:/usr/local/nagios/etc --name nagios docker-nagios:latest
+ docker run --rm -p 80:80 -v /YOUR_CONFIGURATION_FOLDER:/usr/local/nagios/etc --name nagios alferez/nagios:latest
  
  
  
