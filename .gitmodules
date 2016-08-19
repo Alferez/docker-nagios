@@ -1,0 +1,9 @@
+[submodule "nagioscore"]
+	path = nagioscore
+	url = https://github.com/NagiosEnterprises/nagioscore.git
+[submodule "nrpe"]
+	path = nrpe
+	url = https://github.com/NagiosEnterprises/nrpe.git
+[submodule "nagios-plugins"]
+	path = nagios-plugins
+	url = https://github.com/nagios-plugins/nagios-plugins.git
