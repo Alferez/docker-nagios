@@ -25,10 +25,9 @@ RUN usermod -G nagcmd www-data
 ### Instalamos Nagios
 WORKDIR /tmp
 
-RUN curl -L -O https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.1.1.tar.gz
-RUN tar xvf nagios-4.1.1.tar.gz
+COPY ./nagioscore /tmp/nagioscore
 
-WORKDIR /tmp/nagios-4.1.1
+WORKDIR /tmp/nagioscore
 RUN ./configure  --prefix=/usr/local/nagios --with-nagios-user=nagios --with-nagios-group=nagios --with-command-user=nagios --with-command-group=nagcmd
 RUN make all
 RUN make install
@@ -40,38 +39,40 @@ RUN make install-config
 RUN /usr/bin/install -c -m 644 sample-config/httpd.conf /etc/apache2/sites-available/nagios.conf
 
 WORKDIR /tmp
-RUN rm -rf nagios-4.1.1*
+RUN rm -rf nagios
 
+RUN apt-get install -y --fix-missing  m4 gettext automake autoconf
 
 ### Instalamos los Plugins
-WORKDIR /tmp
-RUN curl -L -O http://nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz
-RUN tar zxvf nagios-plugins-2.1.1.tar.gz
-
-WORKDIR /tmp/nagios-plugins-2.1.1
+#WORKDIR /tmp
+COPY ./nagios-plugins /tmp/nagios-plugins
+#RUN wget $(curl https://www.nagios.org/downloads/nagios-plugins/ | grep "/download/"| awk -F'href=' '{print $2}' | awk -F'"' '{print $2}')
+#RUN tar zxvf nagios-plugins*
+WORKDIR /tmp/nagios-plugins
+RUN ./tools/setup
 RUN ./configure --with-nagios-user=nagios --with-nagios-group=nagios --with-openssl
 RUN make
 RUN make install
+RUN make install-root
 
 WORKDIR /tmp 
-RUN rm -rf nagios-plugins-2.1.1*
+RUN rm -rf nagios-plugins
 
 
 
 ### Instalamos NRPE
 WORKDIR /tmp
-RUN curl -L -O http://downloads.sourceforge.net/project/nagios/nrpe-2.x/nrpe-2.15/nrpe-2.15.tar.gz
-RUN tar zxvf nrpe-2.15.tar.gz
+COPY ./nrpe /tmp/nrpe
 
-WORKDIR /tmp/nrpe-2.15
+WORKDIR /tmp/nrpe
 RUN ./configure --enable-command-args --with-nagios-user=nagios --with-nagios-group=nagios --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/x86_64-linux-gnu
 RUN make all
 RUN make install
-RUN make install-xinetd
-RUN make install-daemon-config
+#RUN make install-xinetd
+#RUN make install-daemon-config
 
 WORKDIR /tmp
-RUN rm -rf nrpe-2.15*
+RUN rm -rf nrpe
 
 #### Configuramos Apache
 RUN echo 'date.timezone = "Europe/Madrid"' >> /etc/php5/apache2/php.ini
@@ -91,7 +92,8 @@ RUN mv /tmp/etc /usr/local/nagios
 
 #### Optionals Modules
 RUN apt-get update -y --fix-missing
-RUN apt-get install -y libnagios-plugin-perl libb-utils-perl libstring-random-perl python
+RUN apt-get install -y libnagios-plugin-perl libb-utils-perl libstring-random-perl python  libio-socket-ssl-perl libxml-simple-perl
+
 RUN apt-get install -y snmp
 
 ### Personalizacion
