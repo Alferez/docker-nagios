@@ -9,8 +9,7 @@
  
  Configure MAIL:
  
- You need edit files in mail-config folder with your configuration data.
- 
+ You need edit file notification.cfg in config.d/commands.d folder with your configuration data.
  
  Usage:
  
