@@ -97,10 +97,20 @@ RUN echo "alias l='ls -la'" >> /root/.bashrc
 RUN echo "export TERM=xterm" >> /root/.bashrc
 
 ### Fix Mail Sender
-RUN apt-get install -y --fix-missing swaks
 RUN apt-get remove --purge -y exim4*
+RUN apt-get install -y --fix-missing postfix
+RUN apt-get install -y --fix-missing mailutils
+RUN postconf -e mynetworks="0.0.0.0/0"
+ENV ROOT_EMAIL=nagios@nagiossystem.com
+ENV MAILNAME=nagios.nagiossystem.com
+RUN postconf -e myhostname=$MAILNAME
+RUN echo $MAILNAME > /etc/mailname
+RUN echo root: $ROOT_EMAIL >> /etc/aliases
+RUN /usr/bin/newaliases
+
 
 ### Limpiamos
+RUN apt-get autoremove -y
 RUN apt-get clean
 RUN rm -rf /tmp/* /var/tmp/*
 RUN rm -rf /var/lib/apt/lists/*
