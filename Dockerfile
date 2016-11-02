@@ -89,8 +89,10 @@ RUN mv /tmp/etc /usr/local/nagios
 #### Optionals Modules
 RUN apt-get update -y --fix-missing
 RUN apt-get install -y libnagios-plugin-perl libb-utils-perl libstring-random-perl python  libio-socket-ssl-perl libxml-simple-perl
+RUN apt-get install -y snmp python-axolotl python-dateutil python-setuptools
+RUN easy_install pip
+RUN pip install yowsup2
 
-RUN apt-get install -y snmp
 
 ### Personalizacion
 RUN echo "alias l='ls -la'" >> /root/.bashrc
