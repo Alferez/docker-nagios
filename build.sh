@@ -15,4 +15,4 @@ git checkout master
 git pull
 cd ..
 
-docker build -t $IMAGE .
+docker build -t $IMAGE --no-cache .

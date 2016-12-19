@@ -1,6 +1,7 @@
 FROM debian:8
 MAINTAINER Jose A Alferez <correo@alferez.es>
 
+ENV NAGIOS_VERSION 4.2.4
 ENV DEBIAN_FRONTEND noninteractive
 
 #### Configure TimeZone
@@ -91,6 +92,7 @@ RUN apt-get update -y --fix-missing
 RUN apt-get install -y libnagios-plugin-perl libb-utils-perl libstring-random-perl python  libio-socket-ssl-perl libxml-simple-perl
 RUN apt-get install -y snmp python-axolotl python-dateutil python-setuptools
 RUN easy_install pip
+RUN pip install python-axolotl
 RUN pip install yowsup2
 
 
