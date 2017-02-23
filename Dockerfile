@@ -106,6 +106,7 @@ RUN echo "export TERM=xterm" >> /root/.bashrc
 RUN wget https://www.alferez.es/nagios/dockerbyalferez.png -O /usr/local/nagios/share/images/dockerbyalferez.png
 RUN wget https://www.alferez.es/nagios/sblogo.png -O /usr/local/nagios/share/images/sblogo.png
 RUN wget https://www.alferez.es/nagios/logofullsize.png -O /usr/local/nagios/share/images/logofullsize.png
+RUN wget https://www.alferez.es/nagios/corelogo.gif -O /usr/local/nagios/share/images/corelogo.gif
 RUN sed -i '/<div class="logos">/a\                <a href="https:\/\/www.alferez.es\/" target="_blank"><img src="images\/dockerbyalferez.png" width="110" height="50" border="1" alt="Alferez.es" \/><\/a>' /usr/local/nagios/share/main.php
 RUN sed -i 's/sblogo.png" height="39"/sblogo.png" height="52"/g' /usr/local/nagios/share/side.php
 
