@@ -1,7 +1,7 @@
 FROM debian:8
 MAINTAINER Jose A Alferez <correo@alferez.es>
 
-ENV NAGIOS_VERSION 4.2.4
+ENV NAGIOS_VERSION 4.3.0
 ENV DEBIAN_FRONTEND noninteractive
 
 #### Configure TimeZone
