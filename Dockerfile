@@ -75,6 +75,10 @@ RUN rm -rf nrpe
 RUN echo 'date.timezone = "Europe/Madrid"' >> /etc/php5/apache2/php.ini
 RUN a2enmod rewrite
 RUN a2enmod cgi
+RUN a2enmod auth_form
+RUN a2enmod session_cookie
+RUN a2enmod session_crypto
+RUN a2enmod request
 RUN echo "ServerName localhost" | tee /etc/apache2/conf-available/fqdn.conf
 RUN ln -s /etc/apache2/conf-available/fqdn.conf /etc/apache2/conf-enabled/fqdn.conf
 RUN ln -s /etc/apache2/sites-available/nagios.conf /etc/apache2/sites-enabled/
