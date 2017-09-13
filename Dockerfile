@@ -95,10 +95,12 @@ RUN mv /tmp/etc /usr/local/nagios
 RUN apt-get update -y --fix-missing
 RUN apt-get install -y libnagios-plugin-perl libb-utils-perl libstring-random-perl python  libio-socket-ssl-perl libxml-simple-perl
 RUN apt-get install -y snmp python-axolotl python-dateutil python-setuptools
+RUN apt-get install -y python-dev libffi-dev libssl-dev
 RUN easy_install pip
 RUN pip install python-axolotl
-RUN pip install yowsup2
-
+RUN pip install twx.botapi
+RUN pip install urllib3
+RUN pip install pyopenssl
 
 ### Personalizacion
 RUN echo "alias l='ls -la'" >> /root/.bashrc
