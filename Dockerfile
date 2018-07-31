@@ -13,7 +13,7 @@ RUN echo "deb http://httpredir.debian.org/debian jessie-backports main" >> /etc/
 RUN apt-get update -y --fix-missing
 RUN apt-get -y upgrade
 
-RUN apt-get install -y --fix-missing wget curl nano apache2 php5-mysql build-essential php5-cgi php5-gd php5-common php5-curl libgd2-xpm-dev openssl libssl-dev xinetd apache2-utils unzip libapache2-mod-php5 php5-cli apache2-mpm-prefork make
+RUN apt-get install -y --fix-missing wget curl nano apache2 php5-mysql build-essential php5-cgi php5-gd php5-common php5-curl libgd2-xpm-dev openssl libssl-dev xinetd apache2-utils unzip libapache2-mod-php5 php5-cli apache2-mpm-prefork make mosquitto-clients bc
 
 #### Creamos el usuario
 RUN groupadd nagios
