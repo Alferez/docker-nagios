@@ -1,4 +1,4 @@
-FROM debian:8
+FROM debian:9
 MAINTAINER Jose A Alferez <correo@alferez.es>
 
 ENV NAGIOS_VERSION 4.3.1
@@ -9,11 +9,11 @@ RUN echo "Europe/Madrid" > /etc/timezone
 RUN dpkg-reconfigure tzdata
 
 #### Instalamos dependencias, Repositorios y Paquetes
-RUN echo "deb http://httpredir.debian.org/debian jessie-backports main" >> /etc/apt/sources.list
+RUN echo "deb http://httpredir.debian.org/debian stretch-backports main" >> /etc/apt/sources.list
 RUN apt-get update -y --fix-missing
 RUN apt-get -y upgrade
 
-RUN apt-get install -y --fix-missing wget curl nano apache2 php5-mysql build-essential php5-cgi php5-gd php5-common php5-curl libgd2-xpm-dev openssl libssl-dev xinetd apache2-utils unzip libapache2-mod-php5 php5-cli apache2-mpm-prefork make mosquitto-clients bc
+RUN apt-get install -y --fix-missing wget curl nano apache2 php-mysql build-essential php-cgi php-gd php-common php-curl libgd2-xpm-dev openssl libssl-dev xinetd apache2-utils unzip libapache2-mod-php php-cli  make mosquitto-clients bc
 
 #### Creamos el usuario
 RUN groupadd nagios
@@ -72,7 +72,6 @@ WORKDIR /tmp
 RUN rm -rf nrpe
 
 #### Configuramos Apache
-RUN echo 'date.timezone = "Europe/Madrid"' >> /etc/php5/apache2/php.ini
 RUN a2enmod rewrite
 RUN a2enmod cgi
 RUN a2enmod auth_form
@@ -93,14 +92,23 @@ RUN mv /tmp/etc /usr/local/nagios
 
 #### Optionals Modules
 RUN apt-get update -y --fix-missing
-RUN apt-get install -y libnagios-plugin-perl libb-utils-perl libstring-random-perl python  libio-socket-ssl-perl libxml-simple-perl
+RUN apt-get install -y libb-utils-perl libstring-random-perl python  libio-socket-ssl-perl libxml-simple-perl
 RUN apt-get install -y snmp python-axolotl python-dateutil python-setuptools
-RUN apt-get install -y python-dev libffi-dev libssl-dev
+RUN apt-get install -y python-dev libffi-dev libssl-dev libmonitoring-plugin-perl
 RUN easy_install pip
 RUN pip install python-axolotl
 RUN pip install twx.botapi
 RUN pip install urllib3
 RUN pip install pyopenssl
+RUN apt-get install -y make libperl-dev libparams-validate-perl libmath-calc-units-perl libclass-accessor-perl libconfig-tiny-perl git
+WORKDIR /tmp
+RUN git clone https://github.com/nagios-plugins/nagios-plugin-perl.git
+WORKDIR /tmp/nagios-plugin-perl
+RUN perl Makefile.PL
+RUN make
+RUN make test
+RUN make install
+
 
 ### Personalizacion
 RUN echo "alias l='ls -la'" >> /root/.bashrc
