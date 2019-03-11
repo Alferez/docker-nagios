@@ -13,7 +13,7 @@ RUN echo "deb http://httpredir.debian.org/debian stretch-backports main" >> /etc
 RUN apt-get update -y --fix-missing
 RUN apt-get -y upgrade
 
-RUN apt-get install -y --fix-missing wget curl nano apache2 php-mysql build-essential php-cgi php-gd php-common php-curl libgd2-xpm-dev openssl libssl-dev xinetd apache2-utils unzip libapache2-mod-php php-cli  make mosquitto-clients bc
+RUN apt-get install -y --fix-missing wget curl nano apache2 php-mysql build-essential php-cgi php-gd php-common php-curl libgd2-xpm-dev openssl libssl-dev xinetd apache2-utils unzip libapache2-mod-php php-cli  make mosquitto-clients bc dnsutils
 
 #### Creamos el usuario
 RUN groupadd nagios
