@@ -1,9 +1,14 @@
 #!/bin/bash
 
+echo "Starting Syslog..."
+service rsyslog start
+sleep 1
+
 echo "Starting Postfix..."
 if [ "$ROOT_EMAIL" != "nagios@nagiossystem.com" ]
 then
 	echo "    setting root_email."
+	sed -i '/nagios@nagiossystem.com/d' /etc/aliases
 	echo root: $ROOT_EMAIL >> /etc/aliases
 	/usr/bin/newaliases
 fi
@@ -29,4 +34,3 @@ while true
 do
 	sleep 1
 done
-
