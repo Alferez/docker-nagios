@@ -10,7 +10,7 @@ RUN dpkg-reconfigure tzdata
 #### Instalamos dependencias, Repositorios y Paquetes
 RUN echo "deb http://httpredir.debian.org/debian bullseye-backports main" >> /etc/apt/sources.list && apt update -y --fix-missing && apt -y upgrade
 
-RUN apt install -y --fix-missing wget curl nano apache2 php-mysql build-essential php-cgi php-gd php-common php-curl libgd-dev openssl libssl-dev xinetd apache2-utils unzip libapache2-mod-php php-cli  make mosquitto-clients bc dnsutils m4 gettext automake autoconf net-tools mariadb-client iputils-ping gcc libc6 libmcrypt-dev make libssl-dev wget bc gawk dc build-essential snmp libnet-snmp-perl gettext libdbi-dev libldap2-dev dnsutils smbclient fping libmariadb-dev libmariadb-dev-compat
+RUN apt install -y --fix-missing wget curl nano apache2 php-mysql build-essential php-cgi php-gd php-common php-curl libgd-dev openssl libssl-dev xinetd apache2-utils unzip libapache2-mod-php php-cli  make mosquitto-clients bc dnsutils m4 gettext automake autoconf net-tools mariadb-client iputils-ping gcc libc6 libmcrypt-dev make libssl-dev wget bc gawk dc build-essential snmp libnet-snmp-perl gettext libdbi-dev libldap2-dev dnsutils smbclient fping libmariadb-dev libmariadb-dev-compat mime-support
 
 #### Creamos el usuario
 RUN groupadd nagios && groupadd nagcmd && useradd -u 3000 -g nagios -G nagcmd -d /usr/local/nagios -c 'Nagios Admin' nagios && usermod -a -G nagcmd nagios && usermod -G nagcmd www-data
