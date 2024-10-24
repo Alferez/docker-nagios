@@ -47,7 +47,7 @@ COPY ./default-config/default_confg.tar.gz /tmp/default_confg.tar.gz
 RUN tar zxvf /tmp/default_confg.tar.gz && rm -rf /usr/local/nagios/etc && mv /tmp/etc /usr/local/nagios
 
 #### Optionals Modules
-RUN apt update -y --fix-missing && apt install -y libb-utils-perl libstring-random-perl python  libio-socket-ssl-perl libxml-simple-perl snmp python3-axolotl python3-dateutil python3-setuptools python3-dev libffi-dev libssl-dev libmonitoring-plugin-perl python3-pip make libperl-dev libparams-validate-perl libmath-calc-units-perl libclass-accessor-perl libconfig-tiny-perl git libnet-snmp-perl
+RUN apt update -y --fix-missing && apt install -y libb-utils-perl libstring-random-perl python3 libio-socket-ssl-perl libxml-simple-perl snmp python3-axolotl python3-dateutil python3-setuptools python3-dev libffi-dev libssl-dev libmonitoring-plugin-perl python3-pip make libperl-dev libparams-validate-perl libmath-calc-units-perl libclass-accessor-perl libconfig-tiny-perl git libnet-snmp-perl
 RUN pip3 install twx.botapi urllib3 pyopenssl --break-system-packages
 WORKDIR /tmp
 RUN git clone https://github.com/nagios-plugins/nagios-plugin-perl.git
