@@ -2,6 +2,8 @@
 
 IMAGE=alferez/nagios
 
+docker pull $(grep FROM Dockerfile | awk '{print $2}')
+
 cd nagioscore
 git checkout master
 git pull
